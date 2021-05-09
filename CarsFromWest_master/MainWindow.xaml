@@ -1,0 +1,289 @@
+﻿<Window x:Class="CarsFromWest_master.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"              
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CarsFromWest_master"
+        
+        mc:Ignorable="d" Height="600" Width="1080" Foreground="White" ResizeMode="NoResize" WindowStartupLocation="Manual" WindowStyle="ToolWindow" ShowInTaskbar="False">
+
+    <Window.Resources>
+
+        <Storyboard x:Key="OpenMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="70"/>
+                <!--ширина в сложеном положении бокового меню-->
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="250"/>
+                <!--ширина бокового меню-->
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="CloseMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
+                <!--ширина бокового меню-->
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="70"/>
+                <!--ширина в сложеном положении бокового меню-->
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
+            <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
+            <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid Background="#FFDEDEDE">
+        <Grid x:Name="GridMain" VerticalAlignment="Bottom" Height="540" Margin="70,0,0,0"/>
+        <Grid Height="60" VerticalAlignment="Top" Background="#FF5C99D6">
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFACACAC"/>
+            </Grid.Effect>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                <Button Name="OpenFirstMenu" Width="88" Background="#00000000" BorderBrush="Transparent" Height="Auto" Click="OpenFirstMenu_Click">
+                    <materialDesign:PackIcon Kind="AccountCircle" Height="36" Width="49" />
+
+
+                </Button>
+
+
+
+            </StackPanel>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Name of App</TextBlock>
+        </Grid>
+
+
+
+
+
+        <Grid Name="Main" Margin="70,60,0,0" Background="#FFCFD8DC" Visibility="Visible">
+            
+            <ListView x:Name="Rules" Margin="10,0,50,10">
+                <Image Source="1.png"/>
+                <Image Source="2.png"/>
+                <Image Source="3.png"/>
+                <Image Source="4.png"/>
+                <Image Source="5.png"/>
+                <Image Source="6.png"/>
+             
+            </ListView>
+            
+
+
+        </Grid>
+
+
+
+        <Grid Name="Cars" Margin="70,60,0,0" Background="#FFCFD8DC" Visibility="Collapsed">
+
+            <TextBlock Margin="333,10,391,438" FontSize="48" FontWeight="Bold" Foreground="#FFEE1313" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280"> Пропозиції</TextBlock>
+
+            <ListView x:Name="ListOfDeals" Margin="60,79,50,10">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="IsSelected" Value="True" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Button Name="DealMenuButton" Click="DealMenuButton_Click" Margin="0, 10, 0, 0">
+                            <WrapPanel>
+
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                <TextBlock Text=", Пробіг: "/>
+                                <TextBlock Text="{Binding Odometet}"/>
+                                <TextBlock Text="міль, Ціна: "/>
+                                <TextBlock Text="{Binding Price}"/>
+                                <TextBlock Text="$ "/>
+
+                            </WrapPanel>
+                        </Button>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+        </Grid>
+
+        <Grid Name="Create" Margin="70,60,0,0" Background="#FFCFD8DC" Visibility="Collapsed">
+            <!--_________________Create_______________________-->
+            <TextBlock   Margin="214,6,169,433" FontSize="48" FontWeight="Bold" Foreground="#FFEE1313" Height="73"> Створення пропозиції</TextBlock>
+
+            <TextBox Name="TypeOfName" materialDesign:HintAssist.Hint="Назва пропозиції"  Margin="226,138,274,0" Foreground="Black" Background="#00FF0000" VerticalAlignment="Top" Height="26" FontSize="14"/>
+            <ComboBox Name="TypeOfBody" materialDesign:HintAssist.Hint="Тип кузову" Margin="226,192,540,279" Height="41" Foreground="Black">
+                <ComboBoxItem>Седан</ComboBoxItem>
+                <ComboBoxItem>Універсал</ComboBoxItem>
+                <ComboBoxItem>Хетчбек</ComboBoxItem>
+                <ComboBoxItem>Ліфтбек</ComboBoxItem>
+                <ComboBoxItem>Позашляховик</ComboBoxItem>
+                <ComboBoxItem>Кросовер</ComboBoxItem>
+                <ComboBoxItem>Купе</ComboBoxItem>
+                <ComboBoxItem>Кабріолет</ComboBoxItem>
+                <ComboBoxItem>Пікап</ComboBoxItem>
+                <ComboBoxItem>Фургон</ComboBoxItem>
+                <ComboBoxItem>Міневен</ComboBoxItem>
+            </ComboBox>
+
+
+            <TextBox Name="TypeOfColor" materialDesign:HintAssist.Hint="Колір"  Margin="226,232,540,0" Foreground="Black" Background="#00FF0000" VerticalAlignment="Top" Height="26" FontSize="14"/>
+            <ComboBox Name="TypeOfDrive" materialDesign:HintAssist.Hint="Тип приводу" Margin="226,286,540,185" Height="41" Foreground="Black">
+                <ComboBoxItem>Повний</ComboBoxItem>
+                <ComboBoxItem>Задній</ComboBoxItem>
+                <ComboBoxItem>Передній</ComboBoxItem>
+            </ComboBox>
+
+            <ComboBox Name="TypeOfFuel" materialDesign:HintAssist.Hint="Тип топлива" Margin="226,316,540,155" Height="41" Foreground="Black">
+                <ComboBoxItem>Бензин</ComboBoxItem>
+                <ComboBoxItem>Дизельне топливо</ComboBoxItem>
+                <ComboBoxItem>Електромобіль</ComboBoxItem>
+            </ComboBox>
+            <TextBox Name="TypeOfEngine" materialDesign:HintAssist.Hint="Об'єм двигуна"  Margin="226,364,540,0" Foreground="Black" Background="#00FF0000" VerticalAlignment="Top" Height="26" FontSize="14"/>
+            <TextBox Name="TypeOfPrice" materialDesign:HintAssist.Hint="Ціна"  Margin="526,185,240,0" Foreground="Black" Background="#00FF0000" VerticalAlignment="Top" Height="26" FontSize="14"/>
+            <TextBox Name="TypeOfOdometr" materialDesign:HintAssist.Hint="Загальний пробіг"  Margin="526,232,240,0" Foreground="Black" Background="#00FF0000" VerticalAlignment="Top" Height="26" FontSize="14"/>
+            <TextBox Name="TypeOfNotes" materialDesign:HintAssist.Hint="Нотатки"  Margin="526,284,240,0" Foreground="Black" Background="#00FF0000" VerticalAlignment="Top" Height="106" FontSize="14" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+            <Button Name="AddProposal" Margin="258,422,312,48" Height="Auto" Click="AddProposal_Click">Додати пропозицію</Button>
+
+
+        </Grid>
+
+
+
+
+        <!--Ширина бокового меню -->
+        <Grid x:Name="GridMenu" Width="70" HorizontalAlignment="Left" Background="#FF31577E">
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
+            </Grid.Effect>
+            <StackPanel>
+                <Grid Height="60" Background="White" RenderTransformOrigin="0.5,0.5">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Grid.RenderTransform>
+                    <Button x:Name="ButtonOpenMenu" Height="60" Width="70" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonOpenMenu_Click" RenderTransformOrigin="0.5,0.356">
+                        <materialDesign:PackIcon Kind="Menu" Width="25" Height="25"/>
+                    </Button>
+                    <Button x:Name="ButtonCloseMenu" Visibility="Collapsed" Height="60" Width="60" Margin="0,0,0,15" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonCloseMenu_Click">
+                        <materialDesign:PackIcon Kind="ArrowLeft" Width="25" Height="25"/>
+                    </Button>
+
+                   
+                </Grid>
+                <ListView x:Name="ListViewMenu" Visibility="Visible" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMenu_SelectionChanged">
+                    <ListViewItem x:Name="ItemHome" Height="60">
+                        <Button Name="ToMain" Click="ToMain_Click" Background="Transparent" BorderBrush="Transparent" Foreground="White">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="0"/>
+                                <TextBlock Text="На головну" VerticalAlignment="Center" Margin="20 0"/>
+                            </StackPanel>
+                        </Button>
+                    </ListViewItem>
+                    <ListViewItem x:Name="ItemCreate" Height="60" Visibility="Visible">
+                        <Button Name="ToCars" Click="ToCars_Click" Background="Transparent" BorderBrush="Transparent">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Car" Height="25" Width="25" Margin="0"/>
+                                <TextBlock Text="Перегляд пропозицій" VerticalAlignment="Center" Margin="20 0"/>
+                            </StackPanel>
+                        </Button>
+                    </ListViewItem>
+                    <ListViewItem Name="ToCreateButton" Visibility="Collapsed" Height="60" Foreground="#FF5C99D6">
+                        <Button Name="ToCreate" Click="ToCreate_Click" Background="Transparent" BorderBrush="Transparent">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Pencil" Height="25" Width="25" Margin="0"/>
+                                <TextBlock Text="Створення пропозиції" VerticalAlignment="Center"  Margin="20 0"/>
+                            </StackPanel>
+                        </Button>
+                    </ListViewItem>
+
+                </ListView>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="GrayBackground" Background="Gray" Opacity="0.6" Visibility="Visible"></Grid>
+
+        <Grid Name="ShowSelectedDeal" Margin="160,89,78,51" Visibility="Collapsed">
+            <Rectangle Height="405" VerticalAlignment="Bottom" Margin="10,0,10,10" RadiusY="10" RadiusX="10" Fill="White"></Rectangle>
+
+            <Button Name="SkipSelectionDeal" Margin="588,24,25,363" Click="SkipSelectionDeal_Click" Height="Auto" Style="{StaticResource MaterialDesignFlatButton}">Закрити</Button>
+
+
+            <Image Source="{Binding Image}" Margin="29,40,507,224"  Width="300"></Image>
+            <TextBlock Text="Назва: "  Foreground="Black" Margin="400,68,328,309" FontSize="32"/>
+            <TextBlock Text="{Binding Name}" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="499,74,37,312"/>
+            <TextBlock Text="Об'єм двигуна: "  Foreground="Black" Margin="400,109,210,271" FontSize="32"/>
+            <TextBlock Text="{Binding Engine}" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="624,116,27,277"/>
+            <TextBlock Text="Тип приводу: "  Foreground="Black" Margin="400,153,234,224" FontSize="32"/>
+            <TextBlock Text="{Binding Drive}" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="607,159,23,228"/>
+            <TextBlock Text="Пробіг: "  Foreground="Black" Margin="38,217,679,161" FontSize="32"/>
+            <TextBlock Text="{Binding Odometet}" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="153,223,498,170"/>
+            <TextBlock Text="Тип палива: "  Foreground="Black" Margin="38,262,611,108" FontSize="32"/>
+            <TextBlock Text="{Binding Fuel}" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="220,269,512,108"/>
+            <TextBlock Text="Колір: "  Foreground="Black" Margin="38,305,611,72" FontSize="32"/>
+            <TextBlock Text="{Binding Color}" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="139,312,498,70"/>
+            <TextBlock Text="Ціна в США: "  Foreground="Black" Margin="400,197,249,175" FontSize="32"/>
+            <TextBlock Text="{Binding Price}" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="590,204,16,189"/>
+            <TextBlock Text="Нотатки: "  Foreground="Black" Margin="400,242,210,108" FontSize="32"/>
+            <TextBlock Text="{Binding Notes}" FontSize="26" FontWeight="Bold" Foreground="Black" Margin="536,246,89,124"/>
+
+            <Button Name="BuyIt" Visibility="Collapsed" Margin="536,348,77,28" Click="BuyIt_Click"  Height="Auto" Style="{StaticResource MaterialDesignFlatButton}" Background="#FFE21919" FontSize="24" Foreground="#FF040404">Купити</Button>
+            <Button Name="DeleteThisDeal" Visibility="Collapsed" Margin="285,348,328,39" Click="DeleteThisDeal_Click"  Height="Auto" Style="{StaticResource MaterialDesignFlatButton}">Видалити пропозицію</Button>
+
+
+
+        </Grid>
+        <!--параметр видимосте окна авторизации-->
+        <Grid Name="FirstMenu"  Margin="192,96,138,51" Visibility="Visible">
+            <Rectangle Height="405" VerticalAlignment="Bottom" Margin="10,0,10,10" RadiusY="10" RadiusX="10" Fill="White">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="150" Direction="0" RenderingBias="Quality" ShadowDepth="1" Color="#FFBBBBBB"/>
+                </Rectangle.Effect>
+            </Rectangle>
+
+            <Grid Name="LoginMenu" Visibility="Visible">
+                <Button Name="SkipFirsMenu" Margin="588,24,25,363" Click="SkipFirsMenu_Click" Height="Auto" Style="{StaticResource MaterialDesignFlatButton}">Пропустити</Button>
+
+                <Grid Name="LogUser" Visibility="Collapsed">
+                    <Button Name="UnLog" Margin="226,242,226,147" Height="Auto" Click="UnLog_Click">Вийти</Button>
+                </Grid>
+
+                <Grid Name="UnLogUser">
+                    <TextBox  Name="textBoxLogin" materialDesign:HintAssist.Hint="Введіть логін"  Margin="226,0,226,273" Foreground="Black" Background="#00F2F3F5" VerticalAlignment="Bottom" Height="26" FontSize="14"/>
+                    <PasswordBox Name="textBoxPass" materialDesign:HintAssist.Hint="Введіть пароль"  Margin="226,0,226,219" Foreground="Black" Background="#00F2F3F5" VerticalAlignment="Bottom" Height="26" FontSize="14"/>
+                    <Button Name="Login" Margin="226,242,226,147" Height="Auto" Click="Login_Click">Авторизуватися</Button>
+                    <Button Name="GoToRegistration" Margin="468,344,78,44" Height="Auto" Click="GoToRegistration_Click">Регістрація</Button>
+                </Grid>
+            </Grid>
+
+            <Grid Name="RegisterMenu" Visibility="Collapsed" RenderTransformOrigin="0.153,0.848">
+                <Button Name="BackToFirstMenu" Margin="478,24,25,363" Click="BackToFirstMenu_Click" Height="Auto" Style="{StaticResource MaterialDesignFlatButton}">Повернутися до авторизації</Button>
+                <TextBox Name="RegLogin" materialDesign:HintAssist.Hint="Введіть логін"  Margin="226,138,226,0" Foreground="Black" Background="#00FF0000" VerticalAlignment="Top" Height="26" FontSize="14"/>
+                <PasswordBox Name="RegPass1" materialDesign:HintAssist.Hint="Введіть пароль"  Margin="226,186,226,0" Foreground="Black" Background="#00F2F3F5" VerticalAlignment="Top" Height="27" FontSize="14"/>
+                <PasswordBox Name="RegPass2" materialDesign:HintAssist.Hint="Повторіть пароль"  Margin="226,242,226,0" Foreground="Black" Background="#00F2F3F6" VerticalAlignment="Top" Height="26" FontSize="14"/>
+                <Button Name="Regeister" Margin="285,302,285,87" Height="Auto" Click="Regeister_Click">Зареєструватися</Button>
+                <TextBox Name="Status" Margin="38,362,659,27" Foreground="#FF7A6767" VerticalAlignment="Top">user</TextBox>
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+
+</Window>
